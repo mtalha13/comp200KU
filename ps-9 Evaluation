@@ -57,5 +57,35 @@
             (cond-clauses->if (cdr body)))))
 
 
+;#|
+;The code for the meta-circular evaluator can be found here: MC-Eval Code in text form. Notice that we've added the following definitions
+;   (define (until? exp) (tagged-list? exp 'until))
+;   (define (until-test exp) (cadr exp))
+;   (define (until-body exp) (cddr exp))
+;and included the following clause in the eval definition:
+;   ((until? exp) (eval-until exp env))
+;Your job is to write the procedure eval-until.
+;
+;An until expression should have the following behavior. The test clause should be evaluated first. If it is true, return the value #t. If it is not true, then evaluate the body of the until expression, and iterate through this cycle again. Continue until the test is true. Assume that the body of the until is a sequence of expressions, not necessarily a single expression. 
+;Hint 0: Remember that the body is a sequence of expressions (look carefully at the definition for until-body).
+;|#
+
+;Test case is: (eval '(begin
+;         (define i 0)
+;         (until (> i 3) (set! i (+ i 1)))
+;         i)
+;      the-global-environment)
+
+
+(define (eval-until exp env)
+  (if (< (length exp) 2) 'error                                           ;check the expression form is right for minimum situation
+      (until-helper (until-test exp) (until-body exp) env)))
+
+(define (until-helper test body env)
+  (eval-sequence body env)
+  (if (eval test env)
+      #t                                                                     ;true, return value
+      (until-helper test body env)))                                         ;if false, keep evaluate
+             
 
 
