@@ -11,7 +11,7 @@
 ;      body)
 ;You may assume that body is a single expression.
 ;Please implement this procedure directly, by making a new environment and evaluating the body in that environment. 
-;#|
+;|#
 
 ;--solution--;
 (define (eval-let exp env)
@@ -24,3 +24,38 @@
             env)                                               ;parent env
    )             
  )  
+
+
+;#|
+;The code for the full meta-circular evaluator can be found here: MC-Eval Code in text form. Notice that we've added the following definitions
+;   (define (cond? exp) (tagged-list? exp 'cond))
+;   (define (cond-clauses exp) (cdr exp))
+;and included the following clause in the eval definition:
+;   ((cond? exp) (eval (cond->if exp) env))
+;Your job is to write the procedure cond->if, which takes a cond expression as input and returns an equivalent expression with nested ifs. This is an example of a syntactic transformation.
+;
+;You may assume that a cond expression has the form
+;
+;    (cond  (c1 e1)
+;           (c2 e2)
+;            ...
+;           (cn en))
+;This is a simplified version of the cond expression in real Scheme. There are only two expressions in each clause (the condition and a single expression that is to be evaluated if the condition is true), and there is no special else case. Remember that your resulting expression must evaluate at most one of the e1 ... en expressions. If none of the c1 ... cn expressions evaluates to #t, it should just return #f. 
+;Hint 0: Use a helper procedure to handle the loop through the clauses of the cond.
+;|#
+
+(define (cond->if exp)                             ;EX:  (cond->if '(cond ((> a b) 'ok)))
+      (cond-clauses->if (cdr exp)))
+
+
+(define (cond-clauses->if body)
+  (if (null? body)
+      #f
+      (list 'if
+            (first (car body))
+            (second (car body))
+            (cond-clauses->if (cdr body)))))
+
+
+
+
