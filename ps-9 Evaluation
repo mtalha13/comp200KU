@@ -1,0 +1,26 @@
+;#|
+;The code for the simple interpreter can be found here: Interpreter Code in text form. Notice that we have added this definition
+;   (define (let? exp) (tag-check exp '*let))
+;and included the following clause in the eval definition:
+;   ((let? exp) (eval-let exp env))
+;Your job is to write the procedure eval-let, which takes a *let expression and evaluates it. (We're calling this form *let rather than let* because let* is a valid special form of regular Scheme. Besides, it sounds like a Hollywood actress!). A *let expression has the form
+;
+;    (*let ((n1 e1)
+;            ...
+;           (nn en))
+;      body)
+;You may assume that body is a single expression.
+;Please implement this procedure directly, by making a new environment and evaluating the body in that environment. 
+;#|
+
+;--solution--;
+(define (eval-let exp env)
+  (eval (caddr exp)                                            ;eval body
+        (extend-env-with-new-frame                                       ;create new environment for let section
+          (map first (cadr exp))                               ;variables              
+          (map (lambda (clause)                                ;values 
+                    (eval (cadr clause) env))
+                (cadr exp))
+            env)                                               ;parent env
+   )             
+ )  
