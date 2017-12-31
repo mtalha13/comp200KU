@@ -1,0 +1,28 @@
+;counter
+
+(define count 0)
+
+ (define (id x)
+     (set! count (+ count 1))
+     x)
+     
+ (define (square x)
+      (* x x))
+     
+;#|
+;> count
+;0
+;> (id 2)
+;2
+;> count
+;1
+;> (id 5)
+;5
+;> count
+;2
+;>(square (id 10))
+;100
+;>count
+;4   ;(doesn't use memoization) | (if it is use, count would be 3) 
+;|#
+
