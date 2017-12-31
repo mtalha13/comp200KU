@@ -38,3 +38,19 @@
    (if (null? lst1) '()
        (cons-stream (stream-car lst1) (interleave lst2 (stream-cdr lst1)))))
        
+       
+;-----Mapping over a stream  ----;       
+;#|
+;Write a procedure, analogous to map, that takes a stream and a procedure and 
+;returns the stream of values resulting from applying the procedure to each element 
+;of the stream. You don't have to worry about dealing with the null stream. Assume 
+;that cons-stream, stream-car and stream-cdr provide the data abstraction for a stream.
+;We will also use the first few values of the stream as a way of testing equality in our test cases.       
+;|#
+ 
+;it is like eval-sequence         (EVAL-SEQUENCE IS SO USEFULL PROCEDURE) 
+(define (map-stream proc stream)
+  (cons-stream (proc (stream-car stream)) (map-stream proc (stream-cdr stream)))) 
+  
+  
+   
