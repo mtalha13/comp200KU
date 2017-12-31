@@ -26,3 +26,15 @@
 ;4   ;(doesn't use memoization) | (if it is use, count would be 3) 
 ;|#
 
+;-----Interleaving streams ----;
+;#|
+;Write a procedure, (interleave s1 s2), that takes two streams and interleaves them. So, if
+;   ones = (1 1 1 ...)
+;   twos = (2 2 2 ...)
+;   (interleave ones twos) = (1 2 1 2 1 2 ....)
+;|#
+
+(define (interleave lst1 lst2)
+   (if (null? lst1) '()
+       (cons-stream (stream-car lst1) (interleave lst2 (stream-cdr lst1)))))
+       
