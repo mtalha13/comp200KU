@@ -52,5 +52,17 @@
 (define (map-stream proc stream)
   (cons-stream (proc (stream-car stream)) (map-stream proc (stream-cdr stream)))) 
   
-  
-   
+ 
+;-----Filtering a stream ----;
+
+;#|
+;Write a procedure, analogous to filter, that takes a stream and a predicate and returns 
+;the stream of values for which the predicate returns #t. You don't have to worry about 
+;dealing with the null stream. Assume that cons-stream, stream-car and stream-cdr provide 
+;the data abstraction for a stream.
+;|#
+
+(define (filter-stream proc stream)
+  (if (proc (stream-car stream))
+      (cons-stream (stream-car stream) (filter-stream proc (stream-cdr stream)))
+      (filter-stream proc (stream-cdr stream))))
