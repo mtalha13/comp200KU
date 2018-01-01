@@ -66,3 +66,27 @@
   (if (proc (stream-car stream))
       (cons-stream (stream-car stream) (filter-stream proc (stream-cdr stream)))
       (filter-stream proc (stream-cdr stream))))
+      
+;-----Fibonacci numbers ----;
+
+;#|
+;Write a procedure, (fibs), that returns a stream of Fibonacci numbers. The Fibonacci series goes
+;   (1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597 2584 4181 6765 ...)
+;It starts with two 1's, then each successive value is the sum of the previous two. You may use
+;the function (map2-stream p s1 s2), which maps a procedure of two arguments over two streams. 
+;A particularly useful application of it is:
+;    (map2-stream + ones twos) => (3 3 3 3 3 ....)
+;
+;Hint 0: Think about how many initial values you need to cons onto the front of the stream before 
+;you can create a recursive data structure.
+;|#
+
+(define fibs
+  (lambda ()
+    (define fibstream
+     
+        (cons-stream 1 (cons-stream 1
+                                    (map2-stream + fibstream
+                                                 (stream-cdr fibstream)))))
+    fibstream))
+      
