@@ -90,3 +90,32 @@
                                                  (stream-cdr fibstream)))))
     fibstream))
       
+;-----Computing exponentials  ----;
+#|
+Write a procedure, (exponent x), that returns a stream of values that estimate the exponential 
+function applied at x. To do this, use the power series idea from lecture. We have provided a 
+procedure powers, of one argument, that returns a stream of the powers of its argument. We have also
+provide a variable the-facts that is a stream of values for factorial, 1!, 2!, 3!, .... The power series for exponentiation is
+1  + x  + x^2/2! + x^3/3! + ...
+The output of your procedure should be a stream with elements
+1
+1  + x 
+1  + x  + x^2/2! 
+1  + x  + x^2/2! + x^3/3!
+for any given value x
+You may find map2-stream helpful in doing this.
+
+(define map2-stream
+  (lambda (p s1 s2)
+    (cons-stream (p (stream-car s1) (stream-car s2))
+		 (map2-stream p (stream-cdr s1) (stream-cdr s2)))))
+ |#
+ 
+ (define (exponent-terms x)
+  (map2-stream / (stream-cdr (powers x)) the-facts))
+  
+(define exponent
+       (lambda (x)
+	 (cons-stream 1 (map2-stream + (exponent-terms x) (exponent x)))))
+  
+  
