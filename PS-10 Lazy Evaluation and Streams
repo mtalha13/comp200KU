@@ -119,3 +119,29 @@ You may find map2-stream helpful in doing this.
 	 (cons-stream 1 (map2-stream + (exponent-terms x) (exponent x)))))
   
   
+  
+;-----Driving me over the edge  ----;  
+
+;--Part 1: So you want a change! 
+
+;#|
+;The first stage of this process is to measure the gradient  of a signal, 
+;defined as the difference between successive values. Thus, if the signal were
+;4 5 3 6 2 8 2
+;then the gradient should return the first value minus the second, the second minus the third, and so on ...
+;-1 2 -3 4 -6 6
+;Write a procedure to do this.
+;|#
+
+(define (gradient str)
+        (map2-stream - str (stream-cdr str)))
+
+;--Part 2: Carry me over the threshold 
+
+;#|	
+;The second stage is locate points at which the gradient is larger than some prespecified amount.
+;Complete the procedure so that given an input stream, it returns a new stream with a 1 whenever 
+;the absolute value of the stream element is greater than thresh and otherwise returns a 0.	
+;|#
+
+
